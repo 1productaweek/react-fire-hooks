@@ -2,7 +2,10 @@
   "parser":  "@typescript-eslint/parser",
   "extends": [
     "standard", 
-    "plugin:@typescript-eslint/recommended"
+    "standard-react",
+    "react-app",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended"
   ],
   "plugins": ["promise"],
   "env": {
@@ -24,9 +27,12 @@
     "gtag": false
   },
   "rules": {
+    "react/prop-types": [2, { "skipUndeclared": true }],
+    "react/jsx-handler-names": "off",
     "jsx-quotes": [2, "prefer-single"],
     "comma-dangle": [2, "always-multiline"],
     "object-curly-spacing": [2, "always"],
+    "react/display-name": 0,
     "semi": ["error", "never"],
     "no-underscore-dangle": 0,
     "space-before-function-paren": ["error", "always"],

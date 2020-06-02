@@ -1,10 +1,13 @@
-# 1PAW - NPM Starter
+# 1PAW - React Fire Hooks
 
-This project is an npm package starter used by @calummoore for @1productaweek.
+A bunch of utilities for working with Firebase.
 
-It has the following additional features:
 
- * ✅ Typescript
- * ✅ Opinionated ESLint
+### useFirebaseSync
 
+Creates a sync handler. 
+
+```js
+const [data, err, loading] = useFirebaseSync('path/to/collection')
+```
 
