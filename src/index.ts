@@ -1,1 +1,1 @@
-export * from './lib/number';
+export default () => 'Hello World!'
