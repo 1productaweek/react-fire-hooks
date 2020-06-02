@@ -5,7 +5,7 @@
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
-  "repository": "https://github.com/calummoore/@1productaweek/react-fire-hooks",
+  "repository": "https://github.com/1productaweek/react-fire-hooks",
   "license": "MIT",
   "keywords": [],
   "scripts": {
