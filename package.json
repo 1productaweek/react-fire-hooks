@@ -1,6 +1,6 @@
 {
   "name": "@1productaweek/react-fire-hooks",
-  "version": "0.1.5",
+  "version": "0.1.8",
   "description": "A bunch of react hooks for firebase/firestore.",
   "main": "dist/index.js",
   "scripts": {
@@ -67,6 +67,7 @@
     "watch": "^1.0.2"
   },
   "dependencies": {
+    "@babel/preset-react": "^7.10.1",
     "firebase": "^7.14.6",
     "lodash.merge": "^4.6.2",
     "react": "^16.13.1"
