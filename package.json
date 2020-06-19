@@ -1,11 +1,12 @@
 {
   "name": "@1productaweek/react-fire-hooks",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "A bunch of react hooks for firebase/firestore.",
   "main": "dist/index.js",
   "scripts": {
-    "clean": "rimraf lib",
-    "build": "yarn clean && babel src --ignore .spec.js,__mocks__ -d dist --copy-files --extensions '.ts,.tsx,.js'",
+    "clean": "rimraf dist",
+    "build": "yarn clean && babel src --ignore .spec.js,__mocks__ -d dist --copy-files --extensions '.ts,.tsx,.js' && rimraf -rf dist/**/__tests__ && yarn build:types",
+    "build:types": "tsc -p tsconfig.types.json",
     "prepare": "npm run clean && npm run build",
     "prepublish": "yarn prepare",
     "release": "yarn publish --access=public",
