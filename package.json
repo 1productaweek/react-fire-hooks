@@ -1,6 +1,6 @@
 {
   "name": "@1productaweek/react-fire-hooks",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "A bunch of react hooks for firebase/firestore.",
   "main": "dist/index.js",
   "scripts": {
