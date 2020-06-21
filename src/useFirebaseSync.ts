@@ -15,14 +15,17 @@ export default function useFirebaseSync<T extends TReference | null> (
   dependencies?: any[],
 ): T extends firebase.firestore.DocumentReference ? TStateResult<firebase.firestore.DocumentSnapshot> : (T extends null ? TStateResult<null> : TStateResult<firebase.firestore.QuerySnapshot>) {
   const isExiting = useRef(false)
+  const lastRef = useRef<any>(null)
   const [state, setState] = useState<TStateResult<TSnapshot>>([null, null, true])
   const id = getRefUniq(ref)
-
+  
   useEffect(() => {
-    if (!ref || !id) {
+    const isEqualToLastRef = lastRef.current && ref && ref?.isEqual(lastRef.current)
+    if (!ref || isEqualToLastRef) {
       setState([state[0], state[1], false])
       return
     }
+    lastRef.current = ref
     const unsub = (ref.onSnapshot as TSnapshotHandler)(
       { includeMetadataChanges: options?.includeMetadataChanges === false ? false : true },
       (doc: TSnapshot) => {
@@ -51,7 +54,7 @@ export default function useFirebaseSync<T extends TReference | null> (
       // don't have to do a hard refresh next time
       setTimeout(unsub, options?.cacheTime || 0)
     }
-  }, [id, ...(dependencies || [])])
+  }, [ref, ...(dependencies || [])])
 
   return state as any
 }
