@@ -6,6 +6,7 @@ import getRefUniq from './util/getRefUniq'
 export interface FirebaseSyncOptions {
   handledError?: boolean
   cacheTime?: number 
+  includeMetadataChanges?: boolean
 }
 
 export default function useFirebaseSync<T extends TReference | null> (
@@ -23,7 +24,7 @@ export default function useFirebaseSync<T extends TReference | null> (
       return
     }
     const unsub = (ref.onSnapshot as TSnapshotHandler)(
-      { includeMetadataChanges: true },
+      { includeMetadataChanges: options?.includeMetadataChanges === false ? false : true },
       (doc: TSnapshot) => {
         if (isExiting.current) return
         setState([doc, null, false])
