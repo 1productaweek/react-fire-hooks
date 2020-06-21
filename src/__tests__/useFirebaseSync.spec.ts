@@ -68,6 +68,20 @@ describe('useFirebaseSync.spec', () => {
     ])
   })
 
+  test('collection is not rerendered when ref is equivilent',  async () => {
+    const doc1 = { name: 'Calum', age: 20 }
+    await colRef.doc('doc1').set(doc1)
+    const { result, rerender, waitForNextUpdate } = renderHook((initialValue) => useFirebaseSync(initialValue), {
+      initialProps: colRef
+    })
+    await waitForNextUpdate()
+    const prev = result.current
+    rerender(db.collection('useFirebaseSync'))
+    const [res] = result.current
+    expect(result.current[0]).toBe(prev[0])
+    expect(res.docs[0].data()).toEqual(doc1)
+  })
+
   // test('collection removes item', async () => {
   //   const doc1 = { name: 'Calum', age: 20 }
   //   const doc2 = { name: 'John', age: 21 }

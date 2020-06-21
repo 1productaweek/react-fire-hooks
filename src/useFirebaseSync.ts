@@ -20,11 +20,11 @@ export default function useFirebaseSync<T extends TReference | null> (
   
   useEffect(() => {
     const isEqualToLastRef = lastRef.current && ref && ref?.isEqual(lastRef.current)
+    lastRef.current = ref
     if (!ref || isEqualToLastRef) {
-      setState([state[0], state[1], false])
+      if (state[2] === true) setState([state[0], state[1], false])
       return
     }
-    lastRef.current = ref
     const unsub = (ref.onSnapshot as TSnapshotHandler)(
       { includeMetadataChanges: options?.includeMetadataChanges === false ? false : true },
       (doc: TSnapshot) => {
