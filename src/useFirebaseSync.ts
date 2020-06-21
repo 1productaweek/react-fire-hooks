@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useRef } from 'react'
-import { TReference, TSnapshotHandler, TSnapshot, TStateResult } from './firebase'
+import { TReference, TSnapshotHandler, TSnapshot, TStateResult } from './types'
 import getRefUniq from './util/getRefUniq'
 
 export interface FirebaseSyncOptions {
@@ -17,7 +17,6 @@ export default function useFirebaseSync<T extends TReference | null> (
   const isExiting = useRef(false)
   const lastRef = useRef<any>(null)
   const [state, setState] = useState<TStateResult<TSnapshot>>([null, null, true])
-  const id = getRefUniq(ref)
   
   useEffect(() => {
     const isEqualToLastRef = lastRef.current && ref && ref?.isEqual(lastRef.current)
@@ -40,7 +39,7 @@ export default function useFirebaseSync<T extends TReference | null> (
           //   Sentry.captureException(err)
           // })
           if (err && process.env.NODE_ENV !== 'production') {
-            console.error(id, err)
+            console.error(getRefUniq(ref, true), err)
           }
         }
         setState([state[0], err, false])

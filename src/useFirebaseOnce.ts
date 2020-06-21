@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 // import * as Sentry from '@sentry/browser'
 import getRefUniq from './util/getRefUniq'
-import { TReference, TSnapshot, TStateResult } from './firebase'
+import { TReference, TSnapshot, TStateResult } from './types'
 
 export default function useFirebaseOnce <T extends TReference | null> (
   ref: T,
