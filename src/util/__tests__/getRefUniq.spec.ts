@@ -20,6 +20,10 @@ describe('getRefUniq.spec', () => {
     expect(getRefUniq(db.collection('abc').where('field', '>', 'a'))).toEqual('abc|f:field>a|ob:fieldasc,__name__asc|lt:F')
   })
 
+  test('ref for collection with multi-depth filter', () => {
+    expect(getRefUniq(db.collection('abc').where('field.name', '>', ''))).toEqual('abc|f:field.name>|ob:field.nameasc,__name__asc|lt:F')
+  })
+
   test('ref for doc', () => {
     expect(getRefUniq(db.collection('abc').doc('123'))).toEqual('abc/123')
   })
