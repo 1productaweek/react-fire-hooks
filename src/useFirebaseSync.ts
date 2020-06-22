@@ -1,7 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useMemo, useRef } from 'react'
 import { TReference, TSnapshotHandler, TSnapshot, TStateResult } from './types'
-import getRefUniq from './util/getRefUniq'
 
 export interface FirebaseSyncOptions {
   handledError?: boolean
@@ -10,23 +8,21 @@ export interface FirebaseSyncOptions {
 }
 
 export default function useFirebaseSync<T extends TReference | null> (
-  ref: T,
+  ref: () => T,
+  dependencies: any[],
   options?: FirebaseSyncOptions|null,
-  dependencies?: any[],
 ): T extends firebase.firestore.DocumentReference ? TStateResult<firebase.firestore.DocumentSnapshot> : (T extends null ? TStateResult<null> : TStateResult<firebase.firestore.QuerySnapshot>) {
   const isExiting = useRef(false)
-  const lastRef = useRef<any>(null)
+  const memoRef = useMemo(ref, dependencies)
   const [state, setState] = useState<TStateResult<TSnapshot>>([null, null, true])
   
   useEffect(() => {
-    const isEqualToLastRef = lastRef.current && ref && ref?.isEqual(lastRef.current)
-    lastRef.current = ref
-    if (!ref || isEqualToLastRef) {
-      if (state[2] === true) setState([state[0], state[1], false])
+    if (!memoRef) {
+      setState([null, null, false])
       return
     }
-    const unsub = (ref.onSnapshot as TSnapshotHandler)(
-      { includeMetadataChanges: options?.includeMetadataChanges === false ? false : true },
+    const unsub = (memoRef.onSnapshot as TSnapshotHandler)(
+      { includeMetadataChanges: true },
       (doc: TSnapshot) => {
         if (isExiting.current) return
         setState([doc, null, false])
@@ -34,12 +30,8 @@ export default function useFirebaseSync<T extends TReference | null> (
       (err: firebase.FirebaseError) => {
         if (isExiting.current) return
         if (!options?.handledError) {
-          // Sentry.configureScope(function (scope) {
-          //   scope.setExtra('ref', id)
-          //   Sentry.captureException(err)
-          // })
           if (err && process.env.NODE_ENV !== 'production') {
-            console.error(getRefUniq(ref, true), err)
+            console.error(memoRef, err)
           }
         }
         setState([state[0], err, false])
@@ -53,7 +45,7 @@ export default function useFirebaseSync<T extends TReference | null> (
       // don't have to do a hard refresh next time
       setTimeout(unsub, options?.cacheTime || 0)
     }
-  }, [ref, ...(dependencies || [])])
+  }, [memoRef])
 
   return state as any
 }
