@@ -45,7 +45,7 @@ export default function useFirebaseSync<T extends TReference | null> (
       // don't have to do a hard refresh next time
       setTimeout(unsub, options?.cacheTime || 0)
     }
-  }, [options, memoRef])
+  }, [memoRef])
 
   return state as any
 }
