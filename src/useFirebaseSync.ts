@@ -23,6 +23,7 @@ export default function useFirebaseSync<T extends TReference | null> (
       setState([null, null, false])
       return
     }
+    setState((state) => [state[0], state[1], true])
     const unsub = (memoRef.onSnapshot as TSnapshotHandler)(
       { includeMetadataChanges },
       (doc: TSnapshot) => {
