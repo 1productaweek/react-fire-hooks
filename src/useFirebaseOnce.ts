@@ -1,12 +1,12 @@
 import { useEffect, useState, useMemo } from 'react'
 import { TReference, TSnapshot, TStateResult } from './types'
+import useFirebaseMemoRef from './useFirebaseMemoRef'
 
 export default function useFirebaseOnce <T extends TReference | null> (
-  ref: () => T,
-  dependencies = [],
+  ref: T,
 ): T extends firebase.firestore.DocumentReference ? TStateResult<firebase.firestore.DocumentSnapshot> : (T extends null ? TStateResult<null> : TStateResult<firebase.firestore.QuerySnapshot>) {
   const [state, setState] = useState<TStateResult<TSnapshot>>([null, null, true])
-  const memoRef = useMemo(ref, dependencies)
+  const memoRef = useFirebaseMemoRef(ref)
 
   useEffect(() => {
     (async () => {
@@ -25,7 +25,6 @@ export default function useFirebaseOnce <T extends TReference | null> (
         setState((state) => [state[0], e, false])
       }
     })()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [memoRef])
 
   return state as any
