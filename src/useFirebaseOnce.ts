@@ -14,7 +14,7 @@ export default function useFirebaseOnce <T extends TReference | null> (
         setState([null, null, false])
         return
       }
-      if (state[2] !== true) setState([state[0], state[1], true])
+      setState((state) => [state[0], state[1], true])
       try {
         const result: TSnapshot = await memoRef.get()
         setState([result, null, false])
@@ -22,7 +22,7 @@ export default function useFirebaseOnce <T extends TReference | null> (
         if (process.env.NODE_ENV !== 'production') {
           console.error(e)
         }
-        setState([state[0], e, false])
+        setState((state) => [state[0], e, false])
       }
     })()
   // eslint-disable-next-line react-hooks/exhaustive-deps

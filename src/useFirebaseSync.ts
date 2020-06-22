@@ -34,7 +34,7 @@ export default function useFirebaseSync<T extends TReference | null> (
             console.error(memoRef, err)
           }
         }
-        setState([state[0], err, false])
+        setState((state) => [state[0], err, false])
       },
     )
 
@@ -45,7 +45,7 @@ export default function useFirebaseSync<T extends TReference | null> (
       // don't have to do a hard refresh next time
       setTimeout(unsub, options?.cacheTime || 0)
     }
-  }, [options, memoRef, state])
+  }, [options, memoRef])
 
   return state as any
 }
