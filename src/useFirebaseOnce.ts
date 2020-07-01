@@ -3,7 +3,7 @@ import { TReference, TSnapshot, TStateResult } from './types'
 import useFirebaseMemoRef from './useFirebaseMemoRef'
 
 export default function useFirebaseOnce <T extends TReference | null> (
-  ref: T,
+  ref?: T,
 ): T extends firebase.firestore.DocumentReference ? TStateResult<firebase.firestore.DocumentSnapshot> : (T extends null ? TStateResult<null> : TStateResult<firebase.firestore.QuerySnapshot>) {
   const [state, setState] = useState<TStateResult<TSnapshot>>([null, null, true])
   const memoRef = useFirebaseMemoRef(ref)

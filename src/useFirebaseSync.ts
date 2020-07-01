@@ -8,7 +8,7 @@ export interface FirebaseSyncOptions {
 }
 
 export default function useFirebaseSync<T extends TReference | null> (
-  ref: T,
+  ref?: T,
   options?: FirebaseSyncOptions|null,
 ): T extends firebase.firestore.DocumentReference ? TStateResult<firebase.firestore.DocumentSnapshot> : (T extends null ? TStateResult<null> : TStateResult<firebase.firestore.QuerySnapshot>) {
   const [state, setState] = useState<TStateResult<TSnapshot>>([null, null, true])

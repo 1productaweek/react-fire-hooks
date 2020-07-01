@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { TReference } from './types'
 
-export default function useFirebaseMemoRef <T extends TReference | null> (ref: T) {
+export default function useFirebaseMemoRef <T extends TReference | null> (ref?: T) {
   const lastRef = useRef<any>(null)
   const [memoRef, setMemoRef] = useState<TReference|null>(null)
 
