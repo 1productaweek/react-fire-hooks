@@ -32,15 +32,15 @@ export interface SnapshotOptions {
    * If omitted or set to 'none', `null` will be returned by default until the
    * server value becomes available.
    */
-  readonly serverTimestamps?: 'estimate' | 'previous' | 'none';
+  readonly serverTimestamps?: 'estimate' | 'previous' | 'none'
 }
 
 export interface DocumentSnapshot<T> extends firebase.firestore.DocumentSnapshot {
-  data(options?: SnapshotOptions): T | undefined;
+  data(options?: SnapshotOptions): T | undefined
 }
 
 export interface QueryDocumentSnapshot<T> extends firebase.firestore.QueryDocumentSnapshot {
-  data(options?: SnapshotOptions): T;
+  data(options?: SnapshotOptions): T
 }
 
-// export type TFirestoreDocumentSnapshot<T> = 
+// export type TFirestoreDocumentSnapshot<T> =
