@@ -1,4 +1,4 @@
-# 1PAW - React Fire Hooks
+# React Fire Hooks
 
 A bunch of utilities for working with Firebase.
 
