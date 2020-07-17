@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { TReference, TSnapshotHandler, TSnapshot, TStateResult } from './types'
 import useFirebaseMemoRef from './useFirebaseMemoRef'
 
@@ -7,11 +7,13 @@ export interface FirebaseSyncOptions {
   includeMetadataChanges?: boolean
 }
 
-export default function useFirebaseSync<T extends TReference | null> (
-  ref?: T,
+export function useFirebaseSync<Y=any>(ref?: firebase.firestore.DocumentReference|null, options?: FirebaseSyncOptions | null): TStateResult<firebase.firestore.DocumentSnapshot<Y>>
+export function useFirebaseSync<Y=any>(ref?: firebase.firestore.CollectionReference|firebase.firestore.Query|null, options?: FirebaseSyncOptions | null): TStateResult<firebase.firestore.QuerySnapshot<Y>>
+export default function useFirebaseSync<Y=any> (
+  ref?: TReference|null,
   options?: FirebaseSyncOptions|null,
-): T extends firebase.firestore.DocumentReference ? TStateResult<firebase.firestore.DocumentSnapshot> : (T extends null ? TStateResult<null> : TStateResult<firebase.firestore.QuerySnapshot>) {
-  const [state, setState] = useState<TStateResult<TSnapshot>>([null, null, true])
+): TStateResult<TSnapshot<Y>> {
+  const [state, setState] = useState<TStateResult<TSnapshot<Y>>>([null, null, true])
   const { handledError, includeMetadataChanges = true } = options || {}
 
   const memoRef = useFirebaseMemoRef(ref)
@@ -38,7 +40,7 @@ export default function useFirebaseSync<T extends TReference | null> (
     )
 
     return unsub
-  }, [memoRef, handledError, includeMetadataChanges])
+  }, [memoRef, includeMetadataChanges, handledError])
 
   return state as any
 }

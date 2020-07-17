@@ -5,8 +5,8 @@ export type TReference = firebase.firestore.DocumentReference
 export type TCollectionReference = firebase.firestore.CollectionReference
 | firebase.firestore.Query
 
-export type TSnapshot = firebase.firestore.DocumentSnapshot
-  | firebase.firestore.QuerySnapshot
+export type TSnapshot<T=any> = firebase.firestore.DocumentSnapshot<T>
+  | firebase.firestore.QuerySnapshot<T>
 
 export type TSnapshotHandler = (
   options: firebase.firestore.SnapshotListenOptions,
