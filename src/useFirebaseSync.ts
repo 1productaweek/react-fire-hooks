@@ -7,9 +7,9 @@ export interface FirebaseSyncOptions {
   includeMetadataChanges?: boolean
 }
 
-export function useFirebaseSync<Y=any>(ref?: firebase.firestore.DocumentReference|null, options?: FirebaseSyncOptions | null): TStateResult<firebase.firestore.DocumentSnapshot<Y>>
-export function useFirebaseSync<Y=any>(ref?: firebase.firestore.CollectionReference|firebase.firestore.Query|null, options?: FirebaseSyncOptions | null): TStateResult<firebase.firestore.QuerySnapshot<Y>>
-export default function useFirebaseSync<Y=any> (
+function useFirebaseSync<Y=any>(ref: firebase.firestore.DocumentReference, options?: FirebaseSyncOptions|null): TStateResult<firebase.firestore.DocumentSnapshot<Y>>
+function useFirebaseSync<Y=any>(ref: firebase.firestore.CollectionReference|firebase.firestore.Query, options?: FirebaseSyncOptions|null): TStateResult<firebase.firestore.QuerySnapshot<Y>>
+function useFirebaseSync<Y=any> (
   ref?: TReference|null,
   options?: FirebaseSyncOptions|null,
 ): TStateResult<TSnapshot<Y>> {
@@ -44,3 +44,5 @@ export default function useFirebaseSync<Y=any> (
 
   return state as any
 }
+
+export default useFirebaseSync

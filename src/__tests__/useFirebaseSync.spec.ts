@@ -19,6 +19,29 @@ describe('useFirebaseSync.spec', () => {
     expect(loading).toBe(true)
   })
 
+  test('single doc ref', async () => {
+    const doc1 = { name: 'Calum', age: 20 }
+    await colRef.doc('doc1').set(doc1)
+    const { result, waitForNextUpdate } = renderHook(() => useFirebaseSync(colRef.doc('doc1')))
+    await waitForNextUpdate()
+    const [res] = result.current
+    expect(res.data()).toEqual(doc1)
+  })
+
+  test('single doc ref with delayed ref', async () => {
+    const doc1 = { name: 'Calum', age: 20 }
+    await colRef.doc('doc1').set(doc1)
+    const { result, rerender, waitForNextUpdate } = renderHook((initialValue: null) => useFirebaseSync(initialValue), {
+      initialProps: null,
+    })
+    rerender(colRef)
+    await waitForNextUpdate()
+    const [res] = result.current
+    expect(res.data()).toEqual([
+      doc1,
+    ])
+  })
+
   test('empty collection state', async () => {
     const { result, waitForNextUpdate } = renderHook(() => useFirebaseSync(colRef))
     await waitForNextUpdate()
@@ -57,22 +80,22 @@ describe('useFirebaseSync.spec', () => {
   test('collection with delayed ref', async () => {
     const doc1 = { name: 'Calum', age: 20 }
     await colRef.doc('doc1').set(doc1)
-    const { result, rerender, waitForNextUpdate } = renderHook((initialValue) => useFirebaseSync(initialValue), {
-      initialProps: null
+    const { result, rerender, waitForNextUpdate } = renderHook((initialValue: null) => useFirebaseSync(initialValue), {
+      initialProps: null,
     })
     rerender(colRef)
     await waitForNextUpdate()
     const [res] = result.current
-    expect((res as firebase.firestore.QuerySnapshot<firebase.firestore.DocumentData>).docs.map((doc) => doc.data())).toEqual([
+    expect(res.docs.map((doc) => doc.data())).toEqual([
       doc1,
     ])
   })
 
-  test('collection is not rerendered when ref is equivilent',  async () => {
+  test('collection is not rerendered when ref is equivilent', async () => {
     const doc1 = { name: 'Calum', age: 20 }
     await colRef.doc('doc1').set(doc1)
     const { result, rerender, waitForNextUpdate } = renderHook((initialValue) => useFirebaseSync(initialValue), {
-      initialProps: colRef
+      initialProps: colRef,
     })
     await waitForNextUpdate()
     const prev = result.current
