@@ -7,8 +7,8 @@ export interface FirebaseSyncOptions {
   includeMetadataChanges?: boolean
 }
 
-function useFirebaseSync<Y=any>(ref: firebase.firestore.DocumentReference, options?: FirebaseSyncOptions|null): TStateResult<firebase.firestore.DocumentSnapshot<Y>>
-function useFirebaseSync<Y=any>(ref: firebase.firestore.CollectionReference|firebase.firestore.Query, options?: FirebaseSyncOptions|null): TStateResult<firebase.firestore.QuerySnapshot<Y>>
+function useFirebaseSync<Y=any>(ref?: firebase.firestore.DocumentReference|null, options?: FirebaseSyncOptions|null): TStateResult<firebase.firestore.DocumentSnapshot<Y>>
+function useFirebaseSync<Y=any>(ref?: firebase.firestore.CollectionReference|firebase.firestore.Query|null, options?: FirebaseSyncOptions|null): TStateResult<firebase.firestore.QuerySnapshot<Y>>
 function useFirebaseSync<Y=any> (
   ref?: TReference|null,
   options?: FirebaseSyncOptions|null,
