@@ -1,6 +1,8 @@
-export type TReference = firebase.firestore.DocumentReference
-  | firebase.firestore.CollectionReference
-  | firebase.firestore.Query
+import firebase from 'firebase'
+
+export type TReference<Y=any> = firebase.firestore.DocumentReference<Y>
+  | firebase.firestore.CollectionReference<Y>
+  | firebase.firestore.Query<Y>
 
 export type TCollectionReference = firebase.firestore.CollectionReference
 | firebase.firestore.Query

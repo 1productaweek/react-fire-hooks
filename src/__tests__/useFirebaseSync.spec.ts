@@ -22,7 +22,8 @@ describe('useFirebaseSync.spec', () => {
   test('single doc ref', async () => {
     const doc1 = { name: 'Calum', age: 20 }
     await colRef.doc('doc1').set(doc1)
-    const { result, waitForNextUpdate } = renderHook(() => useFirebaseSync(colRef.doc('doc1')))
+    const docRef = colRef.doc('doc1')
+    const { result, waitForNextUpdate } = renderHook(() => useFirebaseSync(docRef))
     await waitForNextUpdate()
     const [res] = result.current
     expect(res.data()).toEqual(doc1)

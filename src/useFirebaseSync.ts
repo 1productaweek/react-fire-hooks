@@ -32,7 +32,7 @@ function useFirebaseSync<Y=any> (
       (err: firebase.FirebaseError) => {
         if (!handledError) {
           if (err && process.env.NODE_ENV !== 'production') {
-            console.error(memoRef, err)
+            console.error((memoRef as any)?.path, err)
           }
         }
         setState((state) => [state[0], err, false])
