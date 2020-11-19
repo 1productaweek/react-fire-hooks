@@ -1,8 +1,8 @@
 import { useContext } from 'react'
-import { FirebaseContext } from './FirebaseProvider'
+import { FirestoreContext } from './FirebaseProvider'
 
 export default function useFirebase () {
-  const resp = useContext(FirebaseContext)
+  const resp = useContext(FirestoreContext)
   if (!resp) throw new Error('<FirebaseProvider> must be a parent')
   return resp
 }
